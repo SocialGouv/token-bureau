@@ -3,7 +3,6 @@
   "version": "0.0.6",
   "private": true,
   "description": "External endpoint for generating GitHub App tokens with OIDC verification",
-  "packageManager": "yarn@4.5.3",
   "type": "module",
   "scripts": {
     "start": "node index.js",

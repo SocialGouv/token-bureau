@@ -174,8 +174,9 @@ OIDC_AUDIENCE=your_external_service_audience
 
 4. Install dependencies and start the server:
 ```bash
-yarn install
-yarn start
+ corepack prepare pnpm@10.27.0 --activate
+ corepack pnpm install
+ corepack pnpm --filter token-bureau-server start
 ```
 
 ## GitHub App Setup
@@ -291,7 +292,7 @@ If you encounter the error "The permissions requested are not granted to this in
 To run the server in development mode with auto-reload:
 
 ```bash
-yarn workspace token-bureau-server dev
+ corepack pnpm --filter token-bureau-server dev
 ```
 
 ## License

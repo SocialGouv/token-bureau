@@ -1,6 +1,2 @@
-/.yarn/**            linguist-vendored
-/.yarn/releases/*    binary
-/.yarn/plugins/**/*  binary
-
 # Generated JavaScript files
 packages/action/dist/index.js linguist-generated=true -diff export-ignore

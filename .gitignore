@@ -2,12 +2,3 @@
 
 # node
 node_modules
-
-# yarn berry
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-# !.yarn/cache
