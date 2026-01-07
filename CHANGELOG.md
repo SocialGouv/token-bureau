@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.7](https://github.com/SocialGouv/token-bureau/compare/v0.0.6...v0.0.7) (2026-01-07)
+
+
+### Bug Fixes
+
+* pnpm migration ([cf06c37](https://github.com/SocialGouv/token-bureau/commit/cf06c374acdb0da5092625b01c7ee3586352fc39))
+* pnpm migration ([b959cea](https://github.com/SocialGouv/token-bureau/commit/b959cea9cb33a75686f489b77262bd7153469867))
+
 ## [0.0.6](https://github.com/SocialGouv/token-bureau/compare/v0.0.5...v0.0.6) (2025-01-20)
 
 
