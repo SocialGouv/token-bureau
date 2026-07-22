@@ -1,9 +1,6 @@
 import fs from 'fs';
-import path from 'path';
 import yaml from 'js-yaml';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import config from './config.js';
 
 // Cache for the parsed permissions config
 let configCache = null;
@@ -45,21 +42,21 @@ async function loadPermissionsConfig() {
     return configCache;
   }
 
-  const configPath = path.join(__dirname, 'config', 'permissions.yml');
-  
+  const configPath = config.permissionsConfigPath;
+
   try {
     const fileContents = await fs.promises.readFile(configPath, 'utf8');
-    const config = yaml.load(fileContents);
+    const permissionsConfig = yaml.load(fileContents);
 
     // Validate default permissions
-    if (!config.default?.permissions) {
+    if (!permissionsConfig.default?.permissions) {
       throw new Error('Default permissions must be defined');
     }
-    await validatePermissions(config.default.permissions);
+    await validatePermissions(permissionsConfig.default.permissions);
 
     // Validate repository-specific permissions
-    if (config.repositories) {
-      for (const [repo, repoConfig] of Object.entries(config.repositories)) {
+    if (permissionsConfig.repositories) {
+      for (const [repo, repoConfig] of Object.entries(permissionsConfig.repositories)) {
         if (!repoConfig.permissions) {
           throw new Error(`Permissions must be defined for repository: ${repo}`);
         }
@@ -68,16 +65,16 @@ async function loadPermissionsConfig() {
     }
 
     // Cache the validated config
-    configCache = config;
-    return config;
+    configCache = permissionsConfig;
+    return permissionsConfig;
   } catch (error) {
-    throw new Error(`Failed to load permissions config: ${error.message}`);
+    throw new Error(`Failed to load permissions config from ${configPath}: ${error.message}`);
   }
 }
 
 async function getEffectivePermissions(owner, repo, requestedPermissions = null) {
-  const config = await loadPermissionsConfig();
-  const defaultPerms = config.default.permissions;
+  const permissionsConfig = await loadPermissionsConfig();
+  const defaultPerms = permissionsConfig.default.permissions;
   const repoPath = `${owner}/${repo}`;
   const orgWildcard = `${owner}/*`;
 
@@ -85,18 +82,18 @@ async function getEffectivePermissions(owner, repo, requestedPermissions = null)
   let effectivePerms = { ...defaultPerms };
 
   // Apply org-wide overrides if they exist
-  if (config.repositories?.[orgWildcard]) {
+  if (permissionsConfig.repositories?.[orgWildcard]) {
     effectivePerms = {
       ...effectivePerms,
-      ...config.repositories[orgWildcard].permissions
+      ...permissionsConfig.repositories[orgWildcard].permissions
     };
   }
 
   // Apply repository-specific overrides if they exist
-  if (config.repositories?.[repoPath]) {
+  if (permissionsConfig.repositories?.[repoPath]) {
     effectivePerms = {
       ...effectivePerms,
-      ...config.repositories[repoPath].permissions
+      ...permissionsConfig.repositories[repoPath].permissions
     };
   }
 

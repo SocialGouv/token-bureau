@@ -6,7 +6,7 @@ import { request } from '@octokit/request';
 import pRetry from 'p-retry';
 import pino from 'pino';
 import config from './config.js';
-import { getEffectivePermissions } from './permissions.js';
+import { getEffectivePermissions, loadPermissionsConfig } from './permissions.js';
 
 // Initialize logger
 const logger = pino(config.logger);
@@ -346,6 +346,17 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// Load the permissions config before serving so a missing or invalid file
+// fails the pod at boot instead of on the first token request.
+const permissionsConfig = await loadPermissionsConfig();
+
 app.listen(port, () => {
-  logger.info({ port }, '🦉 TokenBureau server running');
+  logger.info(
+    {
+      port,
+      permissionsConfigPath: config.permissionsConfigPath,
+      permissionsOverrides: Object.keys(permissionsConfig.repositories || {})
+    },
+    '🦉 TokenBureau server running'
+  );
 });

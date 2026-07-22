@@ -99,6 +99,10 @@ const loggerConfig = {
 // Export configuration with defaults
 export default {
   port: process.env.PORT || 3000,
+  // Deployments mount their own permissions.yml and point this at it; the
+  // bundled file is only a fallback for local runs.
+  permissionsConfigPath:
+    process.env.PERMISSIONS_CONFIG_PATH || join(__dirname, 'config', 'permissions.yml'),
   github: {
     // Prefer client ID if available, fall back to app ID
     appId: process.env.GITHUB_CLIENT_ID || process.env.GITHUB_APP_ID,

@@ -47,7 +47,10 @@ Token-Bureau supports fine-grained permission control through server configurati
 
 #### Server Configuration
 
-Create a `permissions.yml` file in the server's config directory:
+The server loads its whitelist from `PERMISSIONS_CONFIG_PATH`, falling back to the
+`permissions.yml` bundled at `packages/server/config/`. The Helm chart renders the file
+from `.Values.permissions` into a ConfigMap and points the variable at it. The file is read
+once at boot — the chart rolls the pods on any change via a checksum annotation.
 
 ```yaml
 # Default permissions that apply to all repositories

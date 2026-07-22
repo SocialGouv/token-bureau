@@ -17,16 +17,15 @@ default:
     # pages: read
     # workflows: read
 
-# Repository-specific permission overrides
-# Format: owner/repo or org/*
-repositories:
-  "example-org/*":  # Applies to all repos in the org
-    permissions:
-      contents: read
-      issues: read
-  
-  "example-org/specific-repo":  # Specific repository override
-    permissions:
-      contents: write
-      issues: write
-      deployments: none
+# Repository-specific permission overrides, merged over the defaults above.
+# Format: owner/repo, or owner/* to cover a whole org.
+#
+#   "my-org/*":
+#     permissions:
+#       contents: read
+#       issues: read
+#   "my-org/specific-repo":
+#     permissions:
+#       organization_projects: write
+#       deployments: none
+repositories: {}
