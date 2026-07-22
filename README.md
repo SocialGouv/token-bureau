@@ -86,6 +86,7 @@ Available permissions:
 - discussions
 - pages
 - workflows
+- organization_projects (organization-level; for Projects V2 GraphQL writes)
 
 Access levels:
 - read
