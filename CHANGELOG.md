@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.9](https://github.com/SocialGouv/token-bureau/compare/v0.0.8...v0.0.9) (2026-07-22)
+
+
+### Bug Fixes
+
+* **server:** read permissions config from PERMISSIONS_CONFIG_PATH ([ad1a07e](https://github.com/SocialGouv/token-bureau/commit/ad1a07eb53262dabe94200eebcce003365c232fa))
+
 ## [0.0.8](https://github.com/SocialGouv/token-bureau/compare/v0.0.7...v0.0.8) (2026-07-22)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "token-bureau-server",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": true,
   "description": "External endpoint for generating GitHub App tokens with OIDC verification",
   "type": "module",

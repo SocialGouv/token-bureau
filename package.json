@@ -1,6 +1,6 @@
 {
   "name": "~token-bureau-dev",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": true,
   "license": "MIT",
   "description": "External endpoint for generating GitHub App tokens with OIDC verification",
