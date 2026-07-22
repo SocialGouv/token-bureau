@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.8](https://github.com/SocialGouv/token-bureau/compare/v0.0.7...v0.0.8) (2026-07-22)
+
+
+### Features
+
+* **permissions:** allow organization_projects for Projects V2 writes ([637170c](https://github.com/SocialGouv/token-bureau/commit/637170c87b684f776809de13541d77efbda0327c))
+* **permissions:** allow organization_projects for Projects V2 writes ([572141c](https://github.com/SocialGouv/token-bureau/commit/572141c496e10017e17b55ba60617081ad3f1cac))
+
+
+### Bug Fixes
+
+* **ci:** release on push to main with app token ([#7](https://github.com/SocialGouv/token-bureau/issues/7)) ([f809bdc](https://github.com/SocialGouv/token-bureau/commit/f809bdcde67fd008d859c1113451dd33b6c08a05))
+
 ## [0.0.7](https://github.com/SocialGouv/token-bureau/compare/v0.0.6...v0.0.7) (2026-01-07)
 
 
