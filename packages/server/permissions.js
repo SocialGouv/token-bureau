@@ -22,7 +22,10 @@ const VALID_PERMISSIONS = [
   'checks',
   'discussions',
   'pages',
-  'workflows'
+  'workflows',
+  // Organization-level permission — required for Projects V2 GraphQL
+  // mutations (e.g. updating fields on an org ProjectV2 board).
+  'organization_projects'
 ];
 
 async function validatePermissions(permissions) {
