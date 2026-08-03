@@ -6,7 +6,11 @@ import { request } from '@octokit/request';
 import pRetry from 'p-retry';
 import pino from 'pino';
 import config from './config.js';
-import { getEffectivePermissions, loadPermissionsConfig } from './permissions.js';
+import {
+  getEffectivePermissions,
+  loadPermissionsConfig,
+  assertPermissionsGranted
+} from './permissions.js';
 
 // Initialize logger
 const logger = pino(config.logger);
@@ -155,46 +159,58 @@ async function generateToken(owner, repository, requestedPermissions = null) {
     });
 
     // Get repository details using installation auth
+    let repo;
     try {
-      const { data: repo } = await installationRequest('GET /repos/{owner}/{repo}', {
+      ({ data: repo } = await installationRequest('GET /repos/{owner}/{repo}', {
         owner,
         repo: repoName
-      });
-
-      logger.debug({
-        id: repo.id,
-        full_name: repo.full_name
-      }, 'Found repository');
-
-      // Get effective permissions based on config and request
-      const permissions = await getEffectivePermissions(owner, repository, requestedPermissions);
-
-      logger.debug({ permissions }, 'Calculated effective permissions');
-
-      // Get installation access token using installation auth
-      const { token, expiresAt } = await installationAuth({
-        type: "installation",
-        repositoryIds: [repo.id],
-        permissions
-      });
-
-      if (!token) {
-        throw new Error('Failed to generate installation token');
-      }
-
-      logger.debug({ expiresAt }, 'Generated installation token');
-
-      return {
-        token,
-        expires_at: expiresAt,
-        installation_id: installation.id
-      };
+      }));
     } catch (error) {
       if (error.status === 404) {
         throw new Error(`Repository not found: ${owner}/${repoName}`);
       }
       throw error;
     }
+
+    logger.debug({
+      id: repo.id,
+      full_name: repo.full_name
+    }, 'Found repository');
+
+    // Get effective permissions based on config and request
+    const permissions = await getEffectivePermissions(owner, repoName, requestedPermissions);
+
+    // Get installation access token using installation auth
+    const {
+      token,
+      expiresAt,
+      permissions: grantedPermissions,
+      repositorySelection
+    } = await installationAuth({
+      type: "installation",
+      repositoryIds: [repo.id],
+      permissions
+    });
+
+    if (!token) {
+      throw new Error('Failed to generate installation token');
+    }
+
+    assertPermissionsGranted(permissions, grantedPermissions);
+
+    logger.info({
+      owner,
+      repository: repoName,
+      permissions: grantedPermissions,
+      repositorySelection,
+      expiresAt
+    }, 'Generated installation token');
+
+    return {
+      token,
+      expires_at: expiresAt,
+      installation_id: installation.id
+    };
   } catch (error) {
     logger.error({ 
       error: error.message,

@@ -6,7 +6,8 @@
   "description": "External endpoint for generating GitHub App tokens with OIDC verification",
   "type": "module",
   "scripts": {
-    "release": "commit-and-tag-version"
+    "release": "commit-and-tag-version",
+    "test": "node --test 'packages/server/**/*.test.js'"
   },
   "workspaces": [
     "packages/*"

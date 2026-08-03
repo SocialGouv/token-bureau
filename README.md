@@ -96,6 +96,15 @@ Access levels:
 - write
 - none (to explicitly disable)
 
+#### Token scope
+
+Tokens are scoped to the calling repository. `organization_*` permissions ride
+along on that scoped token and reach organization-level resources (Projects V2
+boards, ...) that belong to the repository owner.
+
+The server compares what GitHub granted against what was requested and fails
+the request on a mismatch, rather than handing back a token that 403s later.
+
 #### Permission Inheritance
 
 Permissions are resolved in the following order:

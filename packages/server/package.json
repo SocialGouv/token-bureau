@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "release": "commit-and-tag-version"
+    "release": "commit-and-tag-version",
+    "test": "node --test '**/*.test.js'"
   },
   "dependencies": {
     "@octokit/auth-app": "^7.1.3",

@@ -12,7 +12,8 @@ inputs:
       JSON string of GitHub App permissions to request. Must be allowed by server configuration.
       Example: '{"contents": "read", "issues": "write"}'
       Available permissions: contents, metadata, issues, pull_requests, deployments, packages,
-      actions, security_events, statuses, checks, discussions, pages, workflows
+      actions, security_events, statuses, checks, discussions, pages, workflows,
+      organization_projects
       Access levels: read, write
     required: false
 

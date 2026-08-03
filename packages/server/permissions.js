@@ -25,6 +25,10 @@ const VALID_PERMISSIONS = [
   'organization_projects'
 ];
 
+// Ordered from least to most privileged, for "is the granted level at least
+// the requested one" comparisons.
+const ACCESS_LEVEL_RANK = { none: 0, read: 1, write: 2, admin: 3 };
+
 async function validatePermissions(permissions) {
   for (const [perm, level] of Object.entries(permissions)) {
     if (!VALID_PERMISSIONS.includes(perm)) {
@@ -75,7 +79,10 @@ async function loadPermissionsConfig() {
 async function getEffectivePermissions(owner, repo, requestedPermissions = null) {
   const permissionsConfig = await loadPermissionsConfig();
   const defaultPerms = permissionsConfig.default.permissions;
-  const repoPath = `${owner}/${repo}`;
+  // `repo` may arrive bare or as the OIDC `owner/repo` claim; config keys are
+  // always `owner/repo`.
+  const repoName = repo.includes('/') ? repo.split('/')[1] : repo;
+  const repoPath = `${owner}/${repoName}`;
   const orgWildcard = `${owner}/*`;
 
   // Start with default permissions
@@ -134,4 +141,29 @@ async function getEffectivePermissions(owner, repo, requestedPermissions = null)
   );
 }
 
-export { getEffectivePermissions, loadPermissionsConfig };
+// A token carrying less than what was asked for surfaces much later, as an
+// opaque "Resource not accessible by integration" in the caller's workflow —
+// e.g. after a permission was revoked on the installation. Fail at mint time
+// instead. An access level GitHub returns that we don't rank is left alone
+// rather than reported as missing.
+function assertPermissionsGranted(requested, granted = {}) {
+  const missing = Object.entries(requested)
+    .filter(([perm, level]) => {
+      const grantedLevel = granted[perm];
+      if (grantedLevel !== undefined && !(grantedLevel in ACCESS_LEVEL_RANK)) {
+        return false;
+      }
+      return (ACCESS_LEVEL_RANK[grantedLevel] ?? 0) < (ACCESS_LEVEL_RANK[level] ?? 0);
+    })
+    .map(([perm, level]) => `${perm}: requested ${level}, granted ${granted[perm] ?? 'none'}`);
+
+  if (missing.length > 0) {
+    throw new Error(`GitHub did not grant the requested permissions — ${missing.join('; ')}`);
+  }
+}
+
+export {
+  getEffectivePermissions,
+  loadPermissionsConfig,
+  assertPermissionsGranted
+};

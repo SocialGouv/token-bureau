@@ -45,6 +45,9 @@ jobs:
           pnpm fetch
           pnpm install --offline --frozen-lockfile
 
+      - name: Test
+        run: pnpm test
+
       - name: Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
