@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.11](https://github.com/SocialGouv/token-bureau/compare/v0.0.10...v0.0.11) (2026-11-25)
+
+
+### Features
+
+* **action:** default to token-bureau on Atlas v2 and redirect the retired Fabrique URL ([#8](https://github.com/SocialGouv/token-bureau/issues/8)) ([bf79514](https://github.com/SocialGouv/token-bureau/commit/bf79514695768c9cba1641f9d73a9e8fb2c12a31))
+
 ## [0.0.10](https://github.com/SocialGouv/token-bureau/compare/v0.0.9...v0.0.10) (2026-08-03)
 
 

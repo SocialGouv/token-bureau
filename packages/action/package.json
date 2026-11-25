@@ -1,6 +1,6 @@
 {
   "name": "token-bureau-action",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "private": true,
   "scripts": {
     "build": "ncc build index.js -o ../../dist && mv ../../dist/index.js ../../dist/index.cjs"
