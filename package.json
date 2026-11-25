@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "release": "commit-and-tag-version",
-    "test": "node --test 'packages/server/**/*.test.js'"
+    "test": "node --test 'packages/server/**/*.test.js' 'packages/action/**/*.test.js'"
   },
   "workspaces": [
     "packages/*"

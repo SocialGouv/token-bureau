@@ -2,8 +2,8 @@ name: 'Token-Bureau'
 description: 'Generate GitHub App tokens with OIDC verification'
 inputs:
   token-bureau-url:
-    description: 'URL of the Token-Bureau service'
-    required: true
+    description: 'URL of the Token-Bureau service. Defaults to the SocialGouv instance; the retired Fabrique URL is redirected to it.'
+    required: false
   audience:
     description: 'OIDC audience value'
     required: true

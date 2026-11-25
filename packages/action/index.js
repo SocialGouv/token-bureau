@@ -1,9 +1,13 @@
 import * as core from '@actions/core';
+import { resolveTokenBureauUrl } from './url.js';
 
 async function run() {
   try {
     // Get inputs
-    const tokenBureauUrl = core.getInput('token-bureau-url', { required: true });
+    const { url: tokenBureauUrl, warning } = resolveTokenBureauUrl(core.getInput('token-bureau-url'));
+    if (warning) {
+      core.warning(warning);
+    }
     const audience = core.getInput('audience', { required: true });
     const permissions = core.getInput('permissions');
 
