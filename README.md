@@ -28,7 +28,7 @@ steps:
 
 ### Action Inputs
 
-- `token-bureau-url`: (Required) URL of the Token-Bureau service
+- `token-bureau-url`: (Optional) URL of the Token-Bureau service. Defaults to the SocialGouv instance on Atlas v2; the retired `https://token-bureau.fabrique.social.gouv.fr` is redirected to it with a warning
 - `audience`: (Required) OIDC audience value
 - `permissions`: (Optional) JSON string of GitHub App permissions to request. Must be allowed by server configuration.
   ```yaml
